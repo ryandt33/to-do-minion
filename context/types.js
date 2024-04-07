@@ -1,0 +1,9 @@
+export const ADD_TODO = "ADD_TODO";
+export const EDIT_TODO = "EDIT_TODO";
+export const COMPLETE_TODO = "COMPLETE_TODO";
+export const DELETE_TODO = "DELETE_TODO";
+export const SET_FUNCTION = "SET_FUNCTION";
+export const SET_API_KEY = "SET_API_KEY";
+export const SET_LOADING = "SET_LOADING";
+export const SET_ASSISTANT_MESSAGE = "SET_ASSISTANT_MESSAGE";
+export const SET_ERROR = "SET_ERROR";
