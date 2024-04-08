@@ -120,7 +120,7 @@ const ollama = async (message, model) => {
               Args:
                 title - the name of the todo
             
-                description - the description of the todo - make this witty and sarcastic, it should be a comment to the user. It cannot be null
+                description - the description of the todo
             
             
               Returns:
@@ -132,7 +132,8 @@ const ollama = async (message, model) => {
               deletes a todo
           
             Args:
-              id - the id of the todo
+            id - the id (integer) of an existing todo - this cannot be null
+
           
           
             Returns:
@@ -144,22 +145,23 @@ const ollama = async (message, model) => {
                 Updates a todo, use this to change the title and description
             
               Args:
-                id - the id of the todo
+                id - the id (integer) of an existing todo - this cannot be null
               
                 title - the name of the todo
             
-                description - the description of the todo - make this witty and sarcastic, it should be a comment to the user. It cannot be null
+                description - the description of the todo
             
             
               Returns:
                 todo
             """
-          Function: def completeTodo(title,description):
+          Function: def completeTodo(id):
             """
               Marks a todo as completed
           
             Args:
-              id - the id of the todo
+            id - the id (integer) of an existing todo - this cannot be null
+
 
           
           

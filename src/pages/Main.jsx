@@ -24,7 +24,9 @@ const Main = () => {
         .replaceAll("title", '"title"')
         .replaceAll("description", '"description"')
         .replaceAll("id", '"id"')
-        .replaceAll(/(^"|"$|"\b|\b")/g, "'");
+        .replaceAll("None", "null")
+        .replaceAll("'", '"');
+      // .replaceAll("**apost**", "'");
 
       console.log({ params, functionCall });
 
