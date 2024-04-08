@@ -71,6 +71,12 @@ const AiState = (props) => {
         type: SET_ASSISTANT_MESSAGE,
         payload: data.choices[0].message.content,
       });
+    } else if (data.message.content) {
+      console.log(data.message.content);
+      dispatch({
+        type: SET_FUNCTION,
+        payload: data.message.content,
+      });
     }
   };
 

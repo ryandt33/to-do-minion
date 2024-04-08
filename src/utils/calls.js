@@ -101,6 +101,86 @@ const openai = async (message, model, apiKey) => {
   return await response.json();
 };
 
+const ollama = async (message, model) => {
+  const response = await fetch("http://localhost:11434/api/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "nexusraven",
+      messages: [
+        {
+          role: "user",
+          content: `
+          Function: def createTodo(title,description):
+              """
+               Creates a todo / reminder
+            
+              Args:
+                title - the name of the todo
+            
+                description - the description of the todo - make this witty and sarcastic, it should be a comment to the user. It cannot be null
+            
+            
+              Returns:
+                todo
+              """
+
+          Function: def deleteTodo(id):
+            """
+              deletes a todo
+          
+            Args:
+              id - the id of the todo
+          
+          
+            Returns:
+              true
+              """
+
+          Function: def editTodo(id,title,description):
+              """
+                Updates a todo, use this to change the title and description
+            
+              Args:
+                id - the id of the todo
+              
+                title - the name of the todo
+            
+                description - the description of the todo - make this witty and sarcastic, it should be a comment to the user. It cannot be null
+            
+            
+              Returns:
+                todo
+            """
+          Function: def completeTodo(title,description):
+            """
+              Marks a todo as completed
+          
+            Args:
+              id - the id of the todo
+
+          
+          
+            Returns:
+              todo
+            """
+
+            User Query: ${message}<human_end>`,
+        },
+      ],
+      stream: false,
+      temperature: 0.5,
+      options: {
+        stop: ["\nThought:"],
+      },
+    }),
+  });
+
+  return await response.json();
+};
+
 const anthropic = async (message, model, apiKey) => {
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -193,4 +273,4 @@ const anthropic = async (message, model, apiKey) => {
   return await response.json();
 };
 
-export default { openai, anthropic };
+export default { openai, anthropic, ollama };

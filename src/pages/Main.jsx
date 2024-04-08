@@ -13,8 +13,25 @@ const Main = () => {
   const { apiKey, functionCall, loading, assistantMessage, error } = aiContext;
 
   useEffect(() => {
-    if (functionCall) {
+    if (functionCall && model !== "nexusraven") {
       todoContext[functionCall.name](functionCall.parameters);
+    } else if (model === "nexusraven" && functionCall) {
+      const funcName = functionCall.split("Call: ")[1].split("(")[0];
+      const params = functionCall
+        .split("(")[1]
+        .split(")")[0]
+        .replaceAll("=", ":")
+        .replaceAll("title", '"title"')
+        .replaceAll("description", '"description"')
+        .replaceAll("id", '"id"')
+        .replaceAll(/(^"|"$|"\b|\b")/g, "'");
+
+      console.log({ params, functionCall });
+
+      const convertedParams = JSON.parse(`{${params}}`);
+
+      console.log({ funcName, convertedParams });
+      todoContext[funcName](convertedParams);
     }
   }, [functionCall]);
 
@@ -78,6 +95,7 @@ const Main = () => {
               >
                 <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
                 <option value="gpt-4-turbo-preview">gpt-4-turbo-preview</option>
+                <option value="nexusraven">NexusRaven V2</option>
               </select>
             </div>
             <button
@@ -93,7 +111,7 @@ const Main = () => {
                       : ""
                   }`,
                   model,
-                  "openai"
+                  model === "nexusraven" ? "ollama" : "openai"
                 );
                 setMessage("");
               }}
