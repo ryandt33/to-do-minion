@@ -9,6 +9,7 @@ const Main = () => {
   const [message, setMessage] = useState("");
   const [inputApiKey, setApiKey] = useState("");
   const [model, setModel] = useState("gpt-4-turbo-preview");
+  const [processingError, setProcessingError] = useState(null);
   const { todos } = todoContext;
   const { apiKey, functionCall, loading, assistantMessage, error } = aiContext;
 
@@ -30,10 +31,14 @@ const Main = () => {
 
       console.log({ params, functionCall });
 
-      const convertedParams = JSON.parse(`{${params}}`);
+      try {
+        const convertedParams = JSON.parse(`{${params}}`);
 
-      console.log({ funcName, convertedParams });
-      todoContext[funcName](convertedParams);
+        console.log({ funcName, convertedParams });
+        todoContext[funcName](convertedParams);
+      } catch (error) {
+        setProcessingError("Error processing nexus function call");
+      }
     }
   }, [functionCall]);
 
@@ -42,9 +47,9 @@ const Main = () => {
       {apiKey ? (
         <div className="flex flex-col max-h-screen min-h-screen">
           <h1 className="text-3xl font-bold text-center">To-Do Generator</h1>
-          {error ? (
+          {error || processingError ? (
             <div className="bg-red-500 text-white p-2 rounded-md my-5">
-              {error}
+              {error || processingError}
             </div>
           ) : (
             ""
